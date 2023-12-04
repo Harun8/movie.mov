@@ -2,13 +2,12 @@ import React from "react";
 import "../styles/defualt.css";
 import "../styles/login.css";
 import { Link } from "react-router-dom";
-
-const LogIn = () => {
+const SignIn = () => {
   return (
     <div class="d-flex justify-content-center align-items-center vh-100 bg_color">
       <form className=" p-3 rounded shadow bg_login_form ">
         <div className="d-flex justify-content-center">
-          <h3>Login</h3>
+          <h3>Sign in</h3>
         </div>
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">
@@ -50,7 +49,7 @@ const LogIn = () => {
         </Link>
       </form>
     </div>
-  );
+  ); //comment
 };
 
-export default LogIn;
+export default SignIn;
