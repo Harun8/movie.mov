@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../styles/login.css";
-import Joi from "joi-browser";
 import { useState } from "react";
+import Joi from "joi-browser";
 const Form = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +17,7 @@ const Form = (props) => {
 
   const validate = () => {
     const options = { abortEarly: false };
-    const result = Joi.object(schema).validate(data, options);
+    const result = Joi.validate(schema, data, options);
 
     if (!result.error) return null;
 
@@ -45,6 +45,14 @@ const Form = (props) => {
     newData[input.name] = input.value;
     setData(newData);
     setErrors(currentErrors);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const errors = validate();
+    setErrors({ errors: errors || {} });
+    if (errors) return;
   };
 
   return (
