@@ -1,12 +1,17 @@
 import { Link } from "react-router-dom";
 import "../styles/login.css";
-import { useState } from "react";
-import Joi from "joi-browser";
+import { useState, useEffect } from "react";
+import Joi, { validate } from "joi-browser";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Form = (props) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [inputFields, setInputFields] = useState({
+    username: "",
+    password: "",
+  });
   const [errors, setErrors] = useState({});
-  const [data, setData] = useState({});
+  const [submitting, setSubmitting] = useState(false);
 
   // validation
 
@@ -15,49 +20,81 @@ const Form = (props) => {
     password: Joi.string().required().label("password"),
   };
 
-  const validate = () => {
-    const options = { abortEarly: false };
-    const result = Joi.validate(schema, data, options);
-
-    if (!result.error) return null;
-
-    const errors = {};
-    for (let item of result.error.details) errors[item.path[0]] = item.message;
-
+  const validateValues = (inputValues) => {
+    let errors = {};
+    if (inputValues.username.length < 5) {
+      errors.email = "Username is too short";
+    }
+    if (inputValues.password.length < 8) {
+      errors.password = "Password is too short";
+    }
+    console.log("errors", errors);
     return errors;
   };
 
-  const validateProperty = ({ name, value }) => {
-    const obj = { [name]: value };
-    const fieldSchema = Joi.object({ [name]: schema[name] });
-    const { error } = fieldSchema.validate(obj);
-    return error ? error.details[0].message : null; // Corrected typo here
-  };
-
-  const handleChange = ({ currentTarget: input }) => {
-    const currentErrors = { ...errors };
-    const errorMessage = validateProperty(input);
-    if (errorMessage) {
-      currentErrors[input.name] = errorMessage;
-    } else delete currentErrors[input.name];
-
-    const newData = { ...data }; // Renamed to avoid shadowing
-    newData[input.name] = input.value;
-    setData(newData);
-    setErrors(currentErrors);
-  };
-
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
     e.preventDefault();
-
-    const errors = validate();
-    setErrors({ errors: errors || {} });
-    if (errors) return;
+    setInputFields({ ...inputFields, [e.target.name]: e.target.value });
   };
+
+  const errorToast = (text) =>
+    toast.error(text, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+
+  const successToast = (text) => {
+    toast.success(text, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setErrors(validateValues(inputFields));
+
+    if (Object.keys(errors).length === 0) {
+      console.log("no errros");
+    } else {
+      console.log("The errors", Object.values(errors));
+      const test = Object.values(errors);
+      test.map((item) => {
+        return errorToast(item);
+      });
+    }
+    setSubmitting(true);
+  };
+
+  const finishSubmit = () => {
+    console.log(inputFields);
+    successToast("Welcome");
+  };
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && submitting) {
+      finishSubmit();
+    }
+  }, [errors]);
 
   return (
     <div class="d-flex justify-content-center align-items-center vh-100 bg_color">
-      <form className=" p-4 rounded shadow bg_login_form form_width ">
+      <ToastContainer />
+
+      <form
+        className=" p-4 rounded shadow bg_login_form form_width "
+        onSubmit={handleSubmit}>
         <div className="d-flex justify-content-center">
           <h3>{props.title}</h3>
         </div>
@@ -69,9 +106,9 @@ const Form = (props) => {
             type="text"
             class="form-control"
             id="username"
-            value={username}
+            name="username"
+            value={inputFields.username}
             onChange={handleChange}
-            error={errors["username"]}
           />
         </div>
         <div class="mb-3">
@@ -83,8 +120,8 @@ const Form = (props) => {
             class="form-control"
             id="exampleInputPassword1"
             name="password" // Added name property
-            value={password} // Added value binding
-            onChange={handleChange} // Added onChange handler
+            value={inputFields.password}
+            onChange={handleChange}
           />
         </div>
         <div class="mb-3 form-check">
@@ -96,7 +133,7 @@ const Form = (props) => {
         <div className="d-flex flex-column mb-3">
           <button
             type="submit"
-            disabled={validate()} // Execute the function to get the boolean value
+            // disabled={validate()} // Execute the function to get the boolean value
             class="btn btn-info my-3 rounded-4 ">
             {props.title}
           </button>
