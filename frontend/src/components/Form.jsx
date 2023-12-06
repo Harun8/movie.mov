@@ -66,14 +66,14 @@ const Form = (props) => {
     event.preventDefault();
     setErrors(validateValues(inputFields));
 
-    if (Object.keys(errors).length === 0) {
-      console.log("no errros");
-    } else {
+    if (Object.keys(errors).length != 0) {
       console.log("The errors", Object.values(errors));
       const test = Object.values(errors);
       test.map((item) => {
         return errorToast(item);
       });
+    } else {
+      console.log("no errros");
     }
     setSubmitting(true);
   };
