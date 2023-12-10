@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Movie" ALTER COLUMN "imdbRating" SET DATA TYPE TEXT,
+ALTER COLUMN "Metascore" SET DATA TYPE TEXT;
