@@ -7,4 +7,4 @@ ps application not done so dont judge anything rn wait a bit
 
 
 ## Branching strategy
-[Git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+Git flow
