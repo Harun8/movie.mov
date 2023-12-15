@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "Movie" ADD COLUMN     "BoxOffice" TEXT,
+ADD COLUMN     "DVD" TEXT,
+ADD COLUMN     "Production" TEXT,
+ADD COLUMN     "Ratings" TEXT,
+ADD COLUMN     "Website" TEXT,
+ALTER COLUMN "Images" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "users" ALTER COLUMN "created_on" SET DEFAULT CURRENT_TIMESTAMP,
+ALTER COLUMN "created_on" SET DATA TYPE TIMESTAMP(3);

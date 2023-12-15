@@ -10,13 +10,13 @@ datasource db {
 model users {
   id         Int      @id @default(autoincrement())
   username   String   @unique @db.VarChar(50)
-  password   String   @db.VarChar(50)
+  password   String
   email      String   @unique @db.VarChar(50)
-  created_on DateTime @db.Timestamp(6)
+  created_on DateTime @default(now())
 }
 
 model Movie {
-  id         Int    @id @default(autoincrement())
+  id         Int     @id @default(autoincrement())
   Title      String
   Year       String
   Rated      String
@@ -31,11 +31,16 @@ model Movie {
   Country    String
   Awards     String
   Poster     String
+  Ratings    String?
   Metascore  String
   imdbRating String
   imdbVotes  String
-  imdbID     String @unique
+  imdbID     String  @unique
   Type       String
+  DVD        String?
+  BoxOffice  String?
+  Production String?
+  Website    String?
   Response   String
-  Images     Json
+  Images     Json?
 }
