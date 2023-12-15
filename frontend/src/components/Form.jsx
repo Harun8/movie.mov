@@ -6,95 +6,13 @@ import Joi, { validate } from "joi-browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const Form = (props) => {
-  const [inputFields, setInputFields] = useState({
-    username: "",
-    password: "",
-  });
-  const [errors, setErrors] = useState({});
-  const [submitting, setSubmitting] = useState(false);
-
-  // validation
-
-  const schema = {
-    username: Joi.string().required().label("username"),
-    password: Joi.string().required().label("password"),
-  };
-
-  const validateValues = (inputValues) => {
-    let errors = {};
-    if (inputValues.username.length < 5) {
-      errors.email = "Username is too short";
-    }
-    if (inputValues.password.length < 8) {
-      errors.password = "Password is too short";
-    }
-    console.log("errors", errors);
-    return errors;
-  };
-
-  const handleChange = (e) => {
-    e.preventDefault();
-    setInputFields({ ...inputFields, [e.target.name]: e.target.value });
-  };
-
-  const errorToast = (text) =>
-    toast.error(text, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-
-  const successToast = (text) => {
-    toast.success(text, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setErrors(validateValues(inputFields));
-
-    if (Object.keys(errors).length != 0) {
-      console.log("The errors", Object.values(errors));
-      const test = Object.values(errors);
-      test.map((item) => {
-        return errorToast(item);
-      });
-    } else {
-      console.log("no errros");
-    }
-    setSubmitting(true);
-  };
-
-  const finishSubmit = () => {
-    console.log(inputFields);
-    successToast("Welcome");
-  };
-  useEffect(() => {
-    if (Object.keys(errors).length === 0 && submitting) {
-      finishSubmit();
-    }
-  }, [errors]);
-
   return (
     <div class="d-flex justify-content-center align-items-center vh-100 bg_color">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
 
       <form
         className=" p-4 rounded shadow bg_login_form form_width "
-        onSubmit={handleSubmit}>
+        onSubmit={props.handleSubmit}>
         <div className="d-flex justify-content-center">
           <h3>{props.title}</h3>
         </div>
@@ -107,10 +25,27 @@ const Form = (props) => {
             class="form-control"
             id="username"
             name="username"
-            value={inputFields.username}
-            onChange={handleChange}
+            value={props.inputFields.username}
+            onChange={props.handleChange}
           />
         </div>
+
+        {props.title === "Sign in" && (
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">
+              Email
+            </label>
+            <input
+              type="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              name="email" // Added name property
+              value={props.inputFields.email}
+              onChange={props.handleChange}
+            />
+          </div>
+        )}
+
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">
             Password
@@ -120,8 +55,8 @@ const Form = (props) => {
             class="form-control"
             id="exampleInputPassword1"
             name="password" // Added name property
-            value={inputFields.password}
-            onChange={handleChange}
+            value={props.inputFields.password}
+            onChange={props.handleChange}
           />
         </div>
         <div class="mb-3 form-check">

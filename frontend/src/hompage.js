@@ -4,14 +4,26 @@ import "./styles/defualt.css";
 import axios from "axios";
 import Card from "./components/Card";
 import Header from "./components/Header";
-// import "whatwg-fetch";
-// import fetch from "node-fetch";
-import { createApi } from "unsplash-js";
+import { useCookies } from "react-cookie";
+import { Link, useNavigate } from "react-router-dom";
 
 const Homepage = () => {
+  const [cookies, removeCookies] = useCookies([]);
+  const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [poster, setPoster] = useState([]);
 
+  useEffect(() => {
+    const verifyCookie = async () => {
+      const response = await axios.post("http://localhost:5000/api/v1", {
+        withCredentials: true,
+      });
+
+      // const { status, user } = data;
+      // console.log("data", data, status, user);
+    };
+    verifyCookie();
+  }, [cookies, navigate]);
   useEffect(() => {
     const getAllMovies = async () => {
       const response = await axios.get("http://localhost:5000/api/v1");

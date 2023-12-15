@@ -7,7 +7,7 @@ const getAllMovies = async (req, res) => {
 
   //   await prisma.$disconnect;
   console.log(movies.length);
-  res.status(200).json(movies);
+  return res.status(200).json(movies);
 };
 
 const getMovie = async (req, res) => {

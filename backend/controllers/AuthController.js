@@ -32,8 +32,13 @@ const signUp = async (req, res, next) => {
     res.cookie("token", token, {
       withCredentials: true,
       httpOnly: false,
+      //  In this case, setting httpOnly to false means that the cookie
+      //  can be accessed and potentially manipulated by client-side
+      //  JavaScript. This is typically not recommended for sensitive
+      //  tokens like authentication tokens, as it could expose
+      //  them to cross-site scripting (XSS) attacks.
     });
-    res
+    return res
       .status(201)
       .json({ message: "User signed in successfully", success: true, newUser });
     next();
@@ -72,6 +77,7 @@ const login = async (req, res, next) => {
     });
 
     res.status(201).json({ msg: "user logged in successfully", success: true });
+    return;
   } catch (error) {
     console.log(error);
   }
