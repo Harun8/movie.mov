@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const userVerification = async (req, res) => {
   const token = req.cookies.token;
+  console.log("TOKEN ", token);
   if (!token) {
     return res
       .status(401)

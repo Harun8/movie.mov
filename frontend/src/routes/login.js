@@ -77,16 +77,19 @@ const LogIn = (props) => {
   const finishSubmit = async () => {
     console.log(inputFields);
     successToast("Welcome");
+    console.log(inputFields.username);
 
-    try {
-      const response = await axios.post("http://localhost:5000/api/v1/login", {
+    await axios
+      .post("http://localhost:5000/api/v1/login", {
         username: inputFields.username,
         password: inputFields.password,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-      if (response.ok) {
-        console.log("response", response);
-      }
-    } catch (error) {}
   };
   useEffect(() => {
     if (Object.keys(errors).length === 0 && submitting) {
