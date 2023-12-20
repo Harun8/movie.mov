@@ -5,6 +5,7 @@ require("dotenv").config();
 const userVerification = async (req, res) => {
   const token = req.cookies.token;
   console.log("TOKEN ", token);
+  console.log("req.cookies", req);
   if (!token) {
     return res
       .status(401)

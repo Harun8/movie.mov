@@ -8,43 +8,45 @@ import "react-toastify/dist/ReactToastify.css";
 const Form = (props) => {
   return (
     <div class="d-flex justify-content-center align-items-center vh-100 bg_color">
-      {/* <ToastContainer /> */}
-
+      {/* <ToastContainer /> */}{" "}
       <form
         className=" p-4 rounded shadow bg_login_form form_width "
         onSubmit={props.handleSubmit}>
         <div className="d-flex justify-content-center">
           <h3>{props.title}</h3>
         </div>
+
+        {props.title === "Sign in" && (
+          <>
+            <div class="mb-3">
+              <label for="username" class="form-label">
+                Username{" "}
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                name="username"
+                value={props.inputFields.username}
+                onChange={props.handleChange}
+              />
+            </div>
+          </>
+        )}
+
         <div class="mb-3">
-          <label for="username" class="form-label">
-            Username{" "}
+          <label for="exampleInputEmail1" class="form-label">
+            Email
           </label>
           <input
-            type="text"
+            type="email"
             class="form-control"
-            id="username"
-            name="username"
-            value={props.inputFields.username}
+            id="exampleInputEmail1"
+            name="email" // Added name property
+            value={props.inputFields.email}
             onChange={props.handleChange}
           />
         </div>
-
-        {props.title === "Sign in" && (
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">
-              Email
-            </label>
-            <input
-              type="email"
-              class="form-control"
-              id="exampleInputEmail1"
-              name="email" // Added name property
-              value={props.inputFields.email}
-              onChange={props.handleChange}
-            />
-          </div>
-        )}
 
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">

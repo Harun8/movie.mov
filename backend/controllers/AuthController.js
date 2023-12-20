@@ -50,9 +50,12 @@ const signUp = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    console.log("emai");
+    console.log("req body", req.body);
+    console.log("email", password);
+    console.log("password", password);
     if (!email || !password) {
-      return res.status(404).json({ msg: "All fields are required" });
+      console.log("failed here");
+      return res.json({ msg: "All fields are required" });
     }
 
     const user = await prisma.users.findUnique({
@@ -62,12 +65,12 @@ const login = async (req, res, next) => {
     });
 
     if (!user) {
-      return res.status(404).json({ msg: "incorrect password or email" });
+      return res.json({ msg: "incorrect password or email" });
     }
 
     const authCheck = await bcrypt.compare(password, user.password);
     if (!authCheck) {
-      return res.status(404).json({ msg: "incorrect password or email" });
+      return res.json({ msg: "incorrect password or email" });
     }
 
     const token = createSecretToken(user.id);
@@ -75,6 +78,7 @@ const login = async (req, res, next) => {
       withCredentials: true,
       httpOnly: false,
     });
+    console.log("login Token", token);
 
     res.status(201).json({ msg: "user logged in successfully", success: true });
     return;

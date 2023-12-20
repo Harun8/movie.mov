@@ -6,24 +6,39 @@ import Card from "./components/Card";
 import Header from "./components/Header";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const Homepage = () => {
   const [cookies, removeCookies] = useCookies([]);
   const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [poster, setPoster] = useState([]);
+  const [username, setUsername] = useState("");
+  // useEffect(() => {
+  //   const verifyCookie = async () => {
+  //     if (!cookies.token) {
+  //       navigate("/login");
+  //     }
+  //     const { data } = await axios.post(
+  //       "http://localhost:5000/api/v1",
+  //       {},
+  //       { withCredentials: true }
+  //     );
+  //     const { status, user } = data;
+  //     setUsername(user);
+  //     return status
+  //       ? toast(`Hello ${user}`, {
+  //           position: "top-right",
+  //         })
+  //       : (removeCookies("token"), navigate("/login"));
+  //   };
+  //   verifyCookie();
+  // }, [cookies, navigate, removeCookies]);
 
-  useEffect(() => {
-    const verifyCookie = async () => {
-      const response = await axios.post("http://localhost:5000/api/v1", {
-        withCredentials: true,
-      });
-
-      // const { status, user } = data;
-      // console.log("data", data, status, user);
-    };
-    verifyCookie();
-  }, [cookies, navigate]);
+  // const Logout = () => {
+  //   removeCookies("token");
+  //   navigate("/signup");
+  // };
   useEffect(() => {
     const getAllMovies = async () => {
       const response = await axios.get("http://localhost:5000/api/v1");
@@ -46,6 +61,8 @@ const Homepage = () => {
 
   return (
     <body className="bg_color">
+      <ToastContainer />
+
       <Nav></Nav>
       <div className="my-5">
         <Header></Header>

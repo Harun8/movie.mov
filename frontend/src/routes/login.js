@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 const LogIn = (props) => {
   const [inputFields, setInputFields] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const [errors, setErrors] = useState({});
@@ -18,8 +18,8 @@ const LogIn = (props) => {
 
   const validateValues = (inputValues) => {
     let errors = {};
-    if (inputValues.username.length < 5) {
-      errors.email = "Username is too short";
+    if (inputValues.email.length < 4) {
+      errors.password = "email is not valid";
     }
     if (inputValues.password.length < 8) {
       errors.password = "Password is too short";
@@ -77,11 +77,10 @@ const LogIn = (props) => {
   const finishSubmit = async () => {
     console.log(inputFields);
     successToast("Welcome");
-    console.log(inputFields.username);
 
     await axios
       .post("http://localhost:5000/api/v1/login", {
-        username: inputFields.username,
+        email: inputFields.email,
         password: inputFields.password,
       })
       .then(function (response) {
