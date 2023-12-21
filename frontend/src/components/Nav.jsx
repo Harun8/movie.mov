@@ -2,7 +2,9 @@ import { NavLink } from "react-router-dom";
 
 const Nav = () => {
   return (
-    <nav class="navbar ">
+    <nav
+      class="navbar bg-secondary
+    shadow ">
       <div class="container-fluid">
         <a class="navbar-brand text-light mx-5" href="#">
           movie.mov

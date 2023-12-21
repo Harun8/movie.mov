@@ -42,8 +42,8 @@ const Homepage = () => {
   useEffect(() => {
     const getAllMovies = async () => {
       const response = await axios.get("http://localhost:5000/api/v1");
-      console.log(response.data);
-      setMovies(response.data);
+      console.log(response.data.data);
+      setMovies(response.data.data);
     };
 
     getAllMovies();
